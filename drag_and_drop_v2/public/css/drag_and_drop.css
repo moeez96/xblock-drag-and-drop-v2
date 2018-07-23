@@ -131,6 +131,18 @@
     position: relative;
     line-height: normal;
 }
+.xblock--drag-and-drop .drag-container .rectangle-option {
+    width: 150px;
+    height: 55px;
+}
+.xblock--drag-and-drop .drag-container .square-option {
+    width: 150px;
+    height: 110px;
+}
+
+.xblock--drag-and-drop .item-detail-popup {
+    display: none;
+}
 
 .xblock--drag-and-drop .drag-container .dropped {
     background-color: gray;
@@ -289,6 +301,10 @@
     position: absolute;
     margin: 0;
     transform: translate(-50%, -50%); /* These blocks are to be centered on their absolute x,y position */
+}
+/* Hide Read All button for placed option */
+.xblock--drag-and-drop .drag-container .target .option .btn-read-all {
+    display: none;
 }
 /* Dragging placed option to a different zone in assessment mode */
 .xblock--drag-and-drop .drag-container .target .option.grabbed-with-mouse {

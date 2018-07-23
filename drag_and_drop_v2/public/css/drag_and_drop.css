@@ -303,7 +303,7 @@
     transform: translate(-50%, -50%); /* These blocks are to be centered on their absolute x,y position */
 }
 /* Hide Read All button for placed option */
-.xblock--drag-and-drop .drag-container .target .option .btn-read-all {
+.xblock--drag-and-drop .drag-container .target .option .show-item-detail-popup {
     display: none;
 }
 /* Dragging placed option to a different zone in assessment mode */

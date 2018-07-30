@@ -1598,6 +1598,16 @@ function DragAndDropBlock(runtime, element, configuration) {
     var initDraggable = function() {
         var $container = $root.find('.drag-container');
 
+        // Apply custom scrollbar to draggable item detail popup
+        $container.find('.item-detail-popup-content').niceScroll({
+            cursorwidth: 5,
+            cursoropacitymin: 0.4,
+            cursorcolor: '#ffffff',
+            cursorborder: 'none',
+            cursorborderradius: 10,
+            autohidemode: 'leave'
+        });
+
         // Allow items to be "picked up" using the keyboard
         $container.on('keydown', '.option[draggable=true]', function(evt) {
             if (isActionKey(evt)) {

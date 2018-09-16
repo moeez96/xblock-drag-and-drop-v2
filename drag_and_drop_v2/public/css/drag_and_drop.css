@@ -104,11 +104,6 @@
     padding: 0; /* padding: 5px looks better but makes some blocks to change in size when dropped onto the target; */
 }
 
-.xblock--drag-and-drop .drag-container .bx-wrapper .option {
-    width: 150px;
-    height: 55px;
-}
-
 .xblock--drag-and-drop .drag-container .option {
     display: inline-block;
     min-width: 4em;
@@ -140,6 +135,7 @@
 .xblock--drag-and-drop .drag-container .square-option {
     width: 150px;
     height: 120px;
+    overflow: hidden;
 }
 
 .xblock--drag-and-drop .drag-container .square-option .show-item-detail-popup{

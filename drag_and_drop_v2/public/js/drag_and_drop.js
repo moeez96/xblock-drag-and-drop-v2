@@ -78,6 +78,10 @@ function DragAndDropTemplates(configuration) {
     };
 
     var getItemShapeClass = function(item_content_html) {
+        if (configuration.item_sizing == DragAndDropBlock.FREE_SIZING) {
+            return '';
+        }
+
         if (item_content_html.length < rectangle_item_character_limit) {
             return " rectangle-option";
         }
@@ -121,7 +125,7 @@ function DragAndDropTemplates(configuration) {
             item_content_html = '<img src="' + item.imageURL + '" alt="' + item.imageDescription + '" />';
         }
         var key = item.value + '-content';
-        if(item_content_html.length > square_item_character_limit) {
+        if(item_content_html.length > square_item_character_limit && configuration.item_sizing != DragAndDropBlock.FREE_SIZING) {
             truncated_item_content_html = item_content_html.substring(
                 0, square_item_character_limit
             ) + '...';
@@ -150,7 +154,7 @@ function DragAndDropTemplates(configuration) {
         var item_content_html = gettext(item.displayName);
         var read_more_button;
         className += getItemShapeClass(item_content_html);
-        if (item_content_html.length > square_item_character_limit) {
+        if (item_content_html.length > square_item_character_limit && configuration.item_sizing != DragAndDropBlock.FREE_SIZING) {
             read_more_button = h('button.show-item-detail-popup', { innerHTML: gettext("Read All")}, [
                 h('span.fa.fa-arrows-alt')
             ]);

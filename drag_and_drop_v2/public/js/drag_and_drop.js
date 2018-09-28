@@ -86,7 +86,7 @@ function DragAndDropTemplates(configuration) {
             return " rectangle-option";
         }
         return " square-option";
-    }
+    };
 
     var bankItemWidthStyles = function(item, ctx) {
         var style = {};

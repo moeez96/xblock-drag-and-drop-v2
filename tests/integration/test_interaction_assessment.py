@@ -82,7 +82,13 @@ class AssessmentTestMixin(object):
             self.assertNotDraggable(item_definition.item_id)
             item = self._get_item_by_value(item_definition.item_id)
             self.assertEqual(item.get_attribute('aria-grabbed'), 'false')
-            self.assertEqual(item.get_attribute('class'), 'option fade')
+            item_class = 'option fade'
+            if self.is_item_sizing_fixed():
+                if self.is_square_item(item):
+                    item_class += ' square-option'
+                else:
+                    item_class += ' rectangle-option'
+            self.assertEqual(item.get_attribute('class'), item_class)
 
             item_content = item.find_element_by_css_selector('.item-content')
             self.assertEqual(item_content.get_attribute('aria-describedby'), None)

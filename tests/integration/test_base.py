@@ -253,11 +253,6 @@ class BaseIntegrationTest(SeleniumBaseTest):
         """Determines if item sizing fixed"""
         return self.item_sizing == Constants.FIXED_SIZING
 
-    def is_square_item(self, item):
-        item_content = item.find_element_by_css_selector('.item-content')
-        return len(item_content.get_attribute('innerHTML')) >= Constants.RECTANGLE_ITEM_CHARACTER_LIMIT
-
-
     def _get_style(self, selector, style, computed=True):
         if computed:
             query = 'return getComputedStyle($("{selector}").get(0)).{style}'
@@ -272,6 +267,11 @@ class BaseIntegrationTest(SeleniumBaseTest):
     def assertNotFocused(self, element):
         focused_element = self.browser.switch_to.active_element
         self.assertTrue(element != focused_element, 'expected element to not have focus')
+
+    @staticmethod
+    def is_square_item(item):
+        item_content = item.find_element_by_css_selector('.item-content')
+        return len(item_content.get_attribute('innerHTML')) >= Constants.RECTANGLE_ITEM_CHARACTER_LIMIT
 
     @staticmethod
     def get_element_html(element):
@@ -561,7 +561,12 @@ class InteractionTestBase(object):
             description = 'Placed in: {}'
         else:
             self.assertNotDraggable(item_value)
-            item_class = 'option fade square-option' if self.is_square_item(item) else 'option fade rectangle-option'
+            item_class = 'option fade'
+            if self.is_item_sizing_fixed():
+                if self.is_square_item(item):
+                    item_class += ' square-option'
+                else:
+                    item_class += ' rectangle-option'
             self.assertEqual(item.get_attribute('class'), item_class)
             self.assertIsNone(item.get_attribute('tabindex'))
             description = 'Correctly placed in: {}'

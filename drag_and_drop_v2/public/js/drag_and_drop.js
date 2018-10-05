@@ -6,7 +6,7 @@ function DragAndDropTemplates(configuration) {
     var colsPerSlide = 4;
     var rowsPerSlide = 2;
     var rectangle_item_character_limit = 50;
-    var square_item_character_limit = 120;
+    var square_item_character_limit = 110;
 
     if ('DragAndDropI18N' in window) {
         // Use DnDv2's local translations
@@ -78,7 +78,7 @@ function DragAndDropTemplates(configuration) {
     };
 
     var getItemShapeClass = function(item_content_html) {
-        if (configuration.item_sizing == DragAndDropBlock.FREE_SIZING) {
+        if (!DragAndDropBlock.isItemSizingFixed()) {
             return '';
         }
 
@@ -118,6 +118,13 @@ function DragAndDropTemplates(configuration) {
         ])
     };
 
+    var itemDetailPopupTemplate = function() {
+        return h('div.item-detail-popup', [
+            h('a.close-item-detail-popup.fa.fa-times'),
+            h('p.item-detail-popup-content')
+        ]);
+    };
+
     var itemContentTemplate = function(item) {
         var item_content_html, truncated_item_content_html;
         item_content_html = truncated_item_content_html = gettext(item.displayName);
@@ -125,7 +132,7 @@ function DragAndDropTemplates(configuration) {
             item_content_html = '<img src="' + item.imageURL + '" alt="' + item.imageDescription + '" />';
         }
         var key = item.value + '-content';
-        if(item_content_html.length > square_item_character_limit && configuration.item_sizing != DragAndDropBlock.FREE_SIZING) {
+        if(item_content_html.length > square_item_character_limit && DragAndDropBlock.isItemSizingFixed()) {
             truncated_item_content_html = item_content_html.substring(
                 0, square_item_character_limit
             ) + '...';
@@ -154,7 +161,7 @@ function DragAndDropTemplates(configuration) {
         var item_content_html = gettext(item.displayName);
         var read_more_button;
         className += getItemShapeClass(item_content_html);
-        if (item_content_html.length > square_item_character_limit && configuration.item_sizing != DragAndDropBlock.FREE_SIZING) {
+        if (item_content_html.length > square_item_character_limit && DragAndDropBlock.isItemSizingFixed()) {
             read_more_button = h('button.show-item-detail-popup', { innerHTML: gettext("Read All")}, [
                 h('span.fa.fa-arrows-alt')
             ]);
@@ -865,10 +872,7 @@ function DragAndDropTemplates(configuration) {
                             renderCollection(zoneTemplate, ctx.zones, ctx)
                         ]),
                     ]),
-                    h('div.item-detail-popup', [
-                        h('a.close-item-detail-popup.fa.fa-times'),
-                        h('p.item-detail-popup-content')
-                    ]),
+                    itemDetailPopupTemplate(),
                     h('div.item-bank', item_bank_properties, bank_children),
                     ctx.show_feedback_bar ? itemFeedbackPopupTemplate(ctx) : null,
                     h('div.dragged-items', renderCollection(itemTemplate, items_dragged, ctx)),
@@ -1558,7 +1562,6 @@ function DragAndDropBlock(runtime, element, configuration) {
             item_wrapper.offsetWidth < item_wrapper.scrollWidth) {
             return true;
         }
-
         return false;
     };
 
